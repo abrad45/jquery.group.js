@@ -1,9 +1,13 @@
-	/*******************************
-	********************************
-	********* jQuery Group Plugin **
-	********************************
-	*********** Alexander Bradley **
-	*******************************/
+/* 
+ * jQuery Group Plugin
+ * Examples and Documentation at 
+ * https://github.com/abrad45/jquery.group.js
+ * Copyright (c) 2011-2012 Alexander Bradley
+ * Version BETA
+ * Dual licensed under the MIT and GPL licenses.
+ * Requires jQuery 1.4
+ */
+
 
 (function($){
 	$.fn.group = function(args) {
