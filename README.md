@@ -25,7 +25,7 @@ then `#primary-content` with five children paragraphs will result in:
 		</div>
 	</div>
 
-All children of 'p' tags will remain unaffected, and all other children of the `#primary-content` will appear **after** the div.group items. Though `div` and `group` are the plugin's default wrapping item and class, respectively, both can be customized:
+All children of 'p' tags will remain unaffected, and all siblings of the items being grouped which appear between the first and last items being grouped will appear around the div.group items. Though `div` and `group` are the plugin's default wrapping item and class, respectively, both can be customized:
 
 	$('#primary-content').find('p').group('span', '.set', '#item_');
 
@@ -56,7 +56,7 @@ Finally. if you run the plugin on items which are not sequential or don't share 
 
 and run this jQuery:
 
-	$('.pc, .sc').find('p').group(4);
+	$('#primary-content, #secondary-content').find('p').group(4);
 	
 the result will be:
 
