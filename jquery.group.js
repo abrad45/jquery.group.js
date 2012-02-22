@@ -42,7 +42,7 @@
 		var id_suffix = 0;
 		var settings = {
 			'size': 2,
-			'elem': 'span',
+			'elem': 'div',
 			'elem_class': 'group',
 			'id_prefix': '',
 			'classing': false
