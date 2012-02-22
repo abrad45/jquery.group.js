@@ -80,7 +80,7 @@ the result will be:
 	var settings = {
 		'size': 2,
 		'elem': 'span',
-		'class': '.group',
-		'seq_id': '',
+		'elem_class': '.group',
+		'id_prefix': '',
 		'classing': false
 	}

@@ -23,7 +23,7 @@
 					break; 
 				case String: 
 					if(a.charAt(0) === '.') {
-						options.elemClass = a.substr(1) 
+						options.elem_class = a.substr(1) 
 					} else if(a.charAt(0) === '#') {
 						options.id_prefix = a.substr(1); 
 					} else {
@@ -39,7 +39,7 @@
 		var settings = {
 			'size': 2,
 			'elem': 'span',
-			'elemClass': 'group',
+			'elem_class': 'group',
 			'id_prefix': '',
 			'classing': false
 		}
@@ -65,7 +65,7 @@
 			}
 			
 			$tmp.wrapAll($('<' + s.elem +  '>', { 
-				class: s.elemClass,
+				class: s.elem_class,
 				id: (s.id_prefix.length ? s.id_prefix + id_suffix++ : '')
 			}));
 		}
