@@ -33,6 +33,10 @@
 			} 
 		} 
 		
+		function log() {
+			window.console && console.log && console.log('[cycle] ' + Array.prototype.join.call(arguments,' '));
+		}
+		
 		// count iterates through $this
 		var count = 0;
 		var id_suffix = 0;
