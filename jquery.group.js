@@ -56,7 +56,9 @@
 			'classing': false
 		}
 		var s = $.extend({},settings,options); 
-			
+		var wrap_attrs = {
+			class: s.elem_class
+		};
 		
 		// we'll treat lists differently to ensure valid html structure
 		if($this.first()[0].nodeName === 'LI') {
@@ -82,11 +84,12 @@
 			    }
 			}
 			
+			if(s.id_prefix.length) {
+				wrap_attrs = $.extend(wrap_attrs, {id: s.id_prefix + id_suffix++})
+			}
+			
 			if(!is_list) {
-				$tmp = $tmp.wrapAll($('<' + s.elem +  '>', { 
-					class: s.elem_class,
-					id: (s.id_prefix.length ? s.id_prefix + id_suffix++ : '')
-				}));
+				$tmp = $tmp.wrapAll($('<' + s.elem +  '>', wrap_attrs));
 				
 				if($tmp.first()[0] === $tmp.last()[0]) {
 					// not possible at this time. May be added in the future
@@ -107,10 +110,7 @@
 					$tmp.last().addClass('last-child');
 				}
 				
-				$tmp = $tmp.parent().wrapAll($('<li>', { 
-					class: s.elem_class,
-					id: (s.id_prefix.length ? s.id_prefix + id_suffix++ : '')
-				})).parent();
+				$tmp = $tmp.parent().wrapAll($('<li>', wrap_attrs)).parent();
 			}
 		
 			
