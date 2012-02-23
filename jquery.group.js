@@ -3,7 +3,7 @@
  * Examples and Documentation at 
  * https://github.com/abrad45/jquery.group.js
  * Copyright (c) 2011-2012 Alexander Bradley
- * Version BETA
+ * Version 1.0.0 (22 February 2012 20:49 EST)
  * Dual licensed under the MIT and GPL licenses.
  * Requires jQuery 1.4
  */
