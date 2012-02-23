@@ -27,7 +27,7 @@
 					break; 
 				case String: 
 					if(a.charAt(0) === '.') {
-						options.elem_class = a.substr(1) 
+						options.elem_class = a.substr(1);
 					} else if(a.charAt(0) === '#') {
 						options.id_prefix = a.substr(1); 
 					} else {
@@ -44,6 +44,7 @@
 		// count iterates through $this
 		var count = 0;
 		var id_suffix = 0;
+		var $ret = $();
 		var settings = {
 			'size': 2,
 			'elem': 'div',
@@ -65,6 +66,8 @@
 			$tmp = $this.eq(count);
 					
 			while($tmp.length < s.size) {
+				// here we check to make sure that the next element exists 
+				// and that it shares a parent with the current element
 			    if($this.eq(count).length && ($tmp.last().parent()[0] === $this.eq(count).parent()[0])) {
 			        $tmp = $tmp.add($this.eq(count++));
 			    } else {
@@ -76,6 +79,19 @@
 				class: s.elem_class,
 				id: (s.id_prefix.length ? s.id_prefix + id_suffix++ : '')
 			}));
+			
+		
+			if($tmp.first()[0] === $tmp.last()[0]) {
+				// not possible at this time. May be added in the future
+				$tmp.first().addClass('only-child');
+			} else {
+				$tmp.first().addClass('first-child');
+				$tmp.last().addClass('last-child');
+			}
+			
+			$ret = $ret.add($tmp);
 		}
+		
+		return $ret;
 	}
 })(jQuery);
