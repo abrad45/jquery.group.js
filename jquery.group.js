@@ -42,9 +42,12 @@
 		}
 		
 		// count iterates through $this
+		var $this = this;
 		var count = 0;
 		var id_suffix = 0;
 		var $ret = $();
+		var is_list = false;
+		
 		var settings = {
 			'size': 2,
 			'elem': 'div',
@@ -52,9 +55,13 @@
 			'id_prefix': '',
 			'classing': false
 		}
-			
 		var s = $.extend({},settings,options); 
-		$this = this;
+			
+		
+		// we'll treat lists differently to ensure valid html structure
+		if($this.first()[0].nodeName === 'LI') {
+			is_list = true;
+		}
 		
 		// s.size === 1 loops infinitely
 		if(s.size === 1) {
@@ -75,21 +82,39 @@
 			    }
 			}
 			
-			$tmp.wrapAll($('<' + s.elem +  '>', { 
-				class: s.elem_class,
-				id: (s.id_prefix.length ? s.id_prefix + id_suffix++ : '')
-			}));
-			
-		
-			if($tmp.first()[0] === $tmp.last()[0]) {
-				// not possible at this time. May be added in the future
-				$tmp.first().addClass('only-child');
+			if(!is_list) {
+				$tmp = $tmp.wrapAll($('<' + s.elem +  '>', { 
+					class: s.elem_class,
+					id: (s.id_prefix.length ? s.id_prefix + id_suffix++ : '')
+				}));
+				
+				if($tmp.first()[0] === $tmp.last()[0]) {
+					// not possible at this time. May be added in the future
+					$tmp.first().addClass('only-child');
+				} else {
+					$tmp.first().addClass('first-child');
+					$tmp.last().addClass('last-child');
+				}
+				
+				$tmp = $tmp.parent();
 			} else {
-				$tmp.first().addClass('first-child');
-				$tmp.last().addClass('last-child');
+				$tmp = $tmp.wrapAll('<ul>');
+				if($tmp.first()[0] === $tmp.last()[0]) {
+					// not possible at this time. May be added in the future
+					$tmp.first().addClass('only-child');
+				} else {
+					$tmp.first().addClass('first-child');
+					$tmp.last().addClass('last-child');
+				}
+				
+				$tmp = $tmp.parent().wrapAll($('<li>', { 
+					class: s.elem_class,
+					id: (s.id_prefix.length ? s.id_prefix + id_suffix++ : '')
+				})).parent();
 			}
+		
 			
-			$ret = $ret.add($tmp.parent());
+			$ret = $ret.add($tmp);
 		}
 		
 		return $ret;
