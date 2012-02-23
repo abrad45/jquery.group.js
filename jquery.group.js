@@ -89,7 +89,7 @@
 				$tmp.last().addClass('last-child');
 			}
 			
-			$ret = $ret.add($tmp);
+			$ret = $ret.add($tmp.parent());
 		}
 		
 		return $ret;
