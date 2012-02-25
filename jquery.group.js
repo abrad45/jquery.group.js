@@ -41,6 +41,18 @@
 			window.console && console.log && console.log('[cycle] ' + Array.prototype.join.call(arguments,' '));
 		}
 		
+		function addClassing($tmp) {
+			if($tmp.first()[0] === $tmp.last()[0]) {
+				// not possible at this time. May be added in the future
+				$tmp.first().addClass('only-child');
+			} else {
+				$tmp.first().addClass('first-child');
+				$tmp.last().addClass('last-child');
+			}
+			
+			return $tmp;
+		}
+		
 		// count iterates through $this
 		var $this = this;
 		var count = 0;
@@ -90,26 +102,11 @@
 			
 			if(!is_list) {
 				$tmp = $tmp.wrapAll($('<' + s.elem +  '>', wrap_attrs));
-				
-				if($tmp.first()[0] === $tmp.last()[0]) {
-					// not possible at this time. May be added in the future
-					$tmp.first().addClass('only-child');
-				} else {
-					$tmp.first().addClass('first-child');
-					$tmp.last().addClass('last-child');
-				}
-				
+				if(s.classing) { $tmp = addClassing($tmp); }
 				$tmp = $tmp.parent();
 			} else {
 				$tmp = $tmp.wrapAll('<ul>');
-				if($tmp.first()[0] === $tmp.last()[0]) {
-					// not possible at this time. May be added in the future
-					$tmp.first().addClass('only-child');
-				} else {
-					$tmp.first().addClass('first-child');
-					$tmp.last().addClass('last-child');
-				}
-				
+				if(s.classing) { $tmp = addClassing($tmp); }
 				$tmp = $tmp.parent().wrapAll($('<li>', wrap_attrs)).parent();
 			}
 		
