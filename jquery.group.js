@@ -107,7 +107,7 @@
 			} else {
 				$tmp = $tmp.wrapAll('<ul>');
 				if(s.classing) { $tmp = addClassing($tmp); }
-				$tmp = $tmp.parent().wrapAll($('<li>', wrap_attrs)).parent();
+				$tmp = $tmp.parent().wrapAll($('<li>', wrap_attrs)).parent().parent();
 			}
 		
 			
