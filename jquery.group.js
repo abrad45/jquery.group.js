@@ -3,7 +3,7 @@
  * Examples and Documentation at 
  * https://github.com/abrad45/jquery.group.js
  * Copyright (c) 2011-2012 Alexander Bradley
- * Version 1.0.2 (24 February 2012 21:38 EST)
+ * Version 1.0.3 (9 March 2012 23:31 EST)
  * Dual licensed under the MIT and GPL licenses.
  * Requires jQuery 1.4
  */
@@ -22,7 +22,7 @@
 					options.classing = a; 
 					break; 
 				case Number: 
-					options.size = a; 
+					options.size = parseInt(Math.ceil(a)); 
 					break; 
 				case String: 
 					if(a.charAt(0) === '.') {
@@ -68,7 +68,7 @@
 		}
 		var s = $.extend({},settings,options); 
 		var wrap_attrs = {
-			class: s.elem_class
+			'class': s.elem_class
 		};
 		
 		// we'll treat lists differently to ensure valid html structure
