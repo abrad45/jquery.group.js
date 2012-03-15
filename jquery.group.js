@@ -2,7 +2,7 @@
  * jQuery Group Plugin
  * Examples and Documentation at 
  * https://github.com/abrad45/jquery.group.js
- * Version 1.0.3 (9 March 2012 23:31 EST)
+ * Version 1.1 (14 March 2012 22:38 EST)
  * Copyright (c) 2011-2012 Alexander Bradley
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -41,7 +41,7 @@
 		} 
 		
 		function log() {
-			window.console && console.log && console.log('[cycle] ' + Array.prototype.join.call(arguments,' '));
+			window.console && console.log && console.log('[group] ' + Array.prototype.join.call(arguments,' '));
 		}
 		
 		function addClassing($tmp) {
@@ -62,6 +62,8 @@
 		var id_suffix = 0;
 		var $ret = $();
 		var is_list = false;
+		var pattern_elem = /^([A-Za-z]+)$/;
+		var pattern_attr = /^[A-Za-z][-A-Za-z0-9_:.]*/;
 		
 		var settings = {
 			'size': 2,
@@ -70,6 +72,29 @@
 			'id_prefix': '',
 			'classing': false
 		}
+		
+		// Validate options
+		if(isNaN(options.size)) {
+			log('Oops! "' + options.size + '\" is a pretty terrible group size. We\'ve made it ' + settings.size + ' for you.');
+			options.size = settings.size;
+		}
+		if(options.size === 1) {
+			log('You want to wrap with size = 1? Just use .wrap(), man! We\'ve set it to ' + settings.size + ' for you.');
+			options.size = settings.size;
+		}
+		if(!pattern_elem.test(options.elem)) {
+			log('Oops! "' + options.elem + '" doesn\'t appear to be a valid HTML tag. We\'ve set it to ' + settings.elem + ' for you.');
+			options.elem = settings.elem;
+		}
+		if(!pattern_attr.test(options.elem_class)) {
+			log('Oops! "' + options.elem_class + '" doesn\'t appear to be a valid HTML attribute. We\'ve set elem_class to ' + settings.elem_class + ' for you.');
+			options.elem_class = settings.elem_class;
+		}
+		if(options.id_prefix.length > 0 && !pattern_attr.test(options.id_prefix)) {
+			log('Oops! "' + options.id_prefix + '" doesn\'t appear to be a valid HTML attribute. We\'ve set id_prefix to the default [nothing] for you.');
+			options.id_prefix = settings.id_prefix;
+		}
+		
 		var s = $.extend({},settings,options); 
 		var wrap_attrs = {
 			'class': s.elem_class
@@ -80,23 +105,17 @@
 			is_list = true;
 		}
 		
-		// s.size === 1 loops infinitely
-		if(s.size === 1) {
-			log('Just use .wrap(), man!');
-			return this;
-		}
-
 		while(count < $this.length) {
 			$tmp = $this.eq(count);
 					
 			while($tmp.length < s.size) {
 				// here we check to make sure that the next element exists 
 				// and that it shares a parent with the current element
-			    if($this.eq(count).length && ($tmp.last().parent()[0] === $this.eq(count).parent()[0])) {
-			        $tmp = $tmp.add($this.eq(count++));
-			    } else {
-			        break;
-			    }
+					if($this.eq(count).length && ($tmp.last().parent()[0] === $this.eq(count).parent()[0])) {
+						$tmp = $tmp.add($this.eq(count++));
+					} else {
+						break;
+					}
 			}
 			
 			if(s.id_prefix.length) {
@@ -112,7 +131,7 @@
 				if(s.classing) { $tmp = addClassing($tmp); }
 				$tmp = $tmp.parent().wrapAll($('<li>', wrap_attrs)).parent().parent();
 			}
-		
+			
 			
 			$ret = $ret.add($tmp);
 		}

@@ -157,7 +157,6 @@ You can now (as of version 1.0.3 released on 9 March 2012) pass in a size attrib
 		<p></p>
 		<p></p>
 	</div>
-	
 
 we want to make two columns of paragraphs. We can do that with:
 
@@ -193,3 +192,5 @@ The number length is divided by dictates how many columns you're attempting to a
 		'id_prefix': '',
 		'classing': false
 	}
+	
+THe plugin tries to be intelligent about how you pass it data. For instance, if you set `settings.size = 'your mother';` that will be converted to the default, and floating point numbers will be rounded up to the nearest integer (see above). Also, if the element, class or ID you pass in is not valid according to the HTML spec, we'll use the defaults displayed directly above. Always try to pass in clean settings, but we'll try to help keep your code clean for you.
