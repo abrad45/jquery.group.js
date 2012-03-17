@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jquery.group.js by Alexander Bradley</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/prettify.css" type="text/css" />
+		<style type="text/css">
+			body { padding-top: 40px; }
+			#by_me { float: right; }
+			
+			.group, .set { 
+				border: 2px dashed #069; 
+				margin-bottom: 1em; 
+				padding: .25em .5em;
+				-webkit-border-radius: 4px;
+				-moz-border-radius: 4px;
+				border-radius: 4px;
+				}
+			
+			.set { border: 2px dashed #4ea3a8; }
+		</style>
+	</head>
+	<body data-spy="scroll" onload="prettyPrint()">
+		<div id="navbar" class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+				    <a class="brand" href="https://github.com/abrad45/jquery.group.js">jquery.group.js</a>
+				    <ul class="nav">
+					    <li><a href="#motivation">Motivation</a></li>
+					    <li><a href="#basic">Basic</a></li>
+					    <li><a href="#settings">Advanced</a></li>
+					    <li><a href="#lists">Lists</a></li>
+					    <li><a href="#columns">Columns</a></li>
+				    </ul>
+					<a class="brand pull-right" id="by_me" href="http://abrad45.com">by abrad45</a>
+				</div>
+			</div>
+		</div>
+		<!-- start container -->
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<h2 id="motivation">Motivation</h2>
+					<p>At my company, <a href="http://silverpoint.net/">Silverpoint</a>, our designs often call for the use of shuffling panes of content, images or both. We've found that using M. Alsup's <a href="http://jquery.malsup.com/cycle/">jQuery Cycle Plugin</a> works phenomenally, but not for more than one item at a time. Each developer would spend time futzing with our product or JS until things were good enough, and then call cycle. This changes the game for us; perhaps you'll find it useful, too.</p>
+				</div>
+			</div>
+			<section id="basic">
+				<h2>Basic Demo <small>Grouping of paragraphs</small></h2>
+				<div class="row">
+					<div class="span4">
+						<p>Here, we'll just show what happens when you run group with no arguments whatsoever.</p>
+						<p>This is being done by running the following jQuery:</p>
+						<pre class="prettyprint">$('#basic_demo').find('p').group();</pre>
+					</div>
+					<div class="span4">
+						<h3>HTML Before</h3>
+						<pre class="prettyprint">
+&lt;div id="basic_demo_before"&gt;
+  &lt;p&gt;This is paragraph One.&lt;/p&gt;
+  &lt;p&gt;This is paragraph Two.&lt;/p&gt;
+  &lt;p&gt;This is paragraph Three.&lt;/p&gt;
+  &lt;p&gt;This is paragraph Four.&lt;/p&gt;
+  &lt;p&gt;This is paragraph Five.&lt;/p&gt;
+&lt;/div&gt;</pre>
+					</div>
+					<div class="span4">
+						<h3>HTML After</h3>
+						<pre class="prettyprint">
+&lt;div id="basic_demo"&gt;
+  &lt;div class="group"&gt;
+    &lt;p&gt;This is paragraph One.&lt;/p&gt;
+    &lt;p&gt;This is paragraph Two.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="group"&gt;
+    &lt;p&gt;This is paragraph Three.&lt;/p&gt;
+    &lt;p&gt;This is paragraph Four.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="group"&gt;
+    &lt;p&gt;This is paragraph Five.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span4 offset4">
+						<h3>Output Before</h3>
+						<div id="basic_demo_before">
+					        <p>This is paragraph One.</p>
+					        <p>This is paragraph Two.</p>
+					        <p>This is paragraph Three.</p>
+					        <p>This is paragraph Four.</p>
+					        <p>This is paragraph Five.</p>
+						</div>
+					</div>
+					<div class="span4">
+						<h3>After</h3>
+						<div id="basic_demo">
+					        <p>This is paragraph One.</p>
+					        <p>This is paragraph Two.</p>
+					        <p>This is paragraph Three.</p>
+					        <p>This is paragraph Four.</p>
+					        <p>This is paragraph Five.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div class="row">
+					<div class="span12">
+						<h2 id="settings">Advanced Demo <small>Using jquery.group.js' settings</small></h2>
+						<p>Now let's get a little trickier. Here are the whopping <em>five</em> settings provided to you by jquery.group.js:</p>
+						<pre class="prettyprint">$('#advanced_demo').find('p').group('article', true, '.set', '#item_', 3);</pre>
+					    <div class="alert alert-info"><strong>Note:</strong> You can pass these settings in any order you wish. <em>You're welcome</em>.</div>
+						<div class="row">
+							<div class="span6">
+								<p>In the above code, these settings refer to, in order:</p>
+								<ul>
+									<li>the html element you're wrapping things with</li>
+									<li>whether or not we want <code>first-</code>, <code>last-</code> and <code>only-child</code> classes placed on the items we're grouping'</li>
+									<li>the class of the wrapping tags</li>
+									<li>the prefix of the ID of the wrapping tags (the plugin appends numbers to this to keep IDs unique)</li>
+									<li>the size of the groups</li>
+								</ul>
+							</div>
+							<div class="span6">
+								<!-- ><div class="alert alert-info"><strong>Note:</strong> You can, of course, pass in a full settings object, like so...</div> -->
+								<p>While I felt it was important to allow the specification of any number of settings in any order, you can still pass jquery.group.js an object of settings. If you prefer a bit more order and structure in your life, try this:</p>
+								<pre class="prettyprint">$('#advanced_demo').find('p').group({
+    'size': 3,
+    'elem': 'article',
+    'elem_class': 'set',
+    'id_prefix': 'item_',
+    'classing': true
+});</pre>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				<div class="row">
+					<div class="span4">
+						<h3>HTML Before</h3>
+						<pre class="prettyprint">
+&lt;div id="advanced_demo_before"&gt;
+  &lt;p&gt;This is paragraph One.&lt;/p&gt;
+  &lt;p&gt;This is paragraph Two.&lt;/p&gt;
+  &lt;p&gt;This is paragraph Three.&lt;/p&gt;
+  &lt;p&gt;This is paragraph Four.&lt;/p&gt;
+  &lt;p&gt;This is paragraph Five.&lt;/p&gt;
+&lt;/div&gt;</pre>
+					</div>
+					<div class="span8">
+						<h3>HTML After</h3>
+						<pre class="prettyprint">
+&lt;div id=&quot;advanced_demo&quot;&gt;
+	&lt;article class=&quot;set&quot; id=&quot;item_0&quot;&gt;
+		&lt;p class=&quot;first-child&quot;&gt;This is paragraph One.&lt;/p&gt;
+		&lt;p&gt;This is paragraph Two.&lt;/p&gt;
+		&lt;p class=&quot;last-child&quot;&gt;This is paragraph Three.&lt;/p&gt;
+	&lt;/article&gt;
+	&lt;article class=&quot;set&quot; id=&quot;item_1&quot;&gt;
+		&lt;p class=&quot;first-child&quot;&gt;This is paragraph Four.&lt;/p&gt;
+		&lt;p class=&quot;last-child&quot;&gt;This is paragraph Five.&lt;/p&gt;
+	&lt;/article&gt;
+&lt;/div&gt;</pre>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span4">
+						<h3>Output Before</h3>
+						<div id="advanced_demo_before">
+					        <p>This is paragraph One.</p>
+					        <p>This is paragraph Two.</p>
+					        <p>This is paragraph Three.</p>
+					        <p>This is paragraph Four.</p>
+					        <p>This is paragraph Five.</p>
+						</div>
+					</div>
+					<div class="span8">
+						<h3>After</h3>
+						<div id="advanced_demo">
+					        <p>This is paragraph One.</p>
+					        <p>This is paragraph Two.</p>
+					        <p>This is paragraph Three.</p>
+					        <p>This is paragraph Four.</p>
+					        <p>This is paragraph Five.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- end container -->
+		
+		<script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+		<script type="text/javascript" language="javascript" src="../jquery.group.js"></script>
+		<script type="text/javascript" language="javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/prettify.js"></script>
+		<script type="text/javascript" language="javascript">
+			$(function () {
+				$('#navbar').scrollspy();
+				
+				$('#basic_demo').find('p').group();
+				$('#advanced_demo').find('p').group('article', true, '.set', '#item_', 3);
+				//$('#basic_demo').find('p').group();
+				//$('#basic_demo').find('p').group();
+			});
+		</script>
+	</body>
+</html>
