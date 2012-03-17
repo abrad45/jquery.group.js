@@ -1,8 +1,8 @@
-/* 
+﻿/* 
  * jQuery Group Plugin
  * Examples and Documentation at 
  * https://github.com/abrad45/jquery.group.js
- * Version 1.1 (14 March 2012 22:38 EST)
+ * Version 1.1.1 (16 March 2012 20:58 EST)
  * Copyright (c) 2011-2012 Alexander Bradley
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -90,7 +90,7 @@
 			log('Oops! "' + options.elem_class + '" doesn\'t appear to be a valid HTML attribute. We\'ve set elem_class to ' + settings.elem_class + ' for you.');
 			options.elem_class = settings.elem_class;
 		}
-		if(options.id_prefix.length > 0 && !pattern_attr.test(options.id_prefix)) {
+		if(options.id_prefix && options.id_prefix.length > 0 && !pattern_attr.test(options.id_prefix)) {
 			log('Oops! "' + options.id_prefix + '" doesn\'t appear to be a valid HTML attribute. We\'ve set id_prefix to the default [nothing] for you.');
 			options.id_prefix = settings.id_prefix;
 		}
