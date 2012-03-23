@@ -48,15 +48,17 @@ You can pass parameters to jquery.group.js in any order: since each string has a
 		<span class="set" id="item_1">
 			<p></p>
 			<p></p>
+			<p></p>
 		</span>
 		<span class="set" id="item_2">
+			<p></p>
 			<p></p>
 		</span>
 	</div>
 
 ## Treatment of Intermingled, Nonselected Elements ##
 
-If you run the plugin on items which are not sequential or don't share a parent, by default, the plugin will not group them out of their original containers. For instance. if you've got this structure:
+If you run the plugin on items which are not sequential or don't share a parent, the plugin will not group them out of their original containers. Any siblings of selected items (like the `span` below are ignored). For instance. if you've got this HTML structure:
 
 	<div id="primary-content">
 		<p></p>
