@@ -124,26 +124,18 @@ this jQuery:
 	
 will produce this output:
 
-	<ul>
-		<li class="group">
-			<ul>
-				<li>One</li>
-				<li>Two</li>
-				<li>Three</li>
-			</ul>
-		</li>
-		<li class="group">
-			<ul>
-				<li>Four</li>
-				<li>Five</li>
-				<li>Six</li>
-			</ul>
-		</li>
-		<li class="group">
-			<ul>
-				<li>Seven</li>
-			</ul>
-		</li>
+	<ul class="group">
+		<li>One</li>
+		<li>Two</li>
+		<li>Three</li>
+	</ul>
+	<ul class="group">
+		<li>Four</li>
+		<li>Five</li>
+		<li>Six</li>
+	</ul>
+	<ul class="group">
+		<li>Seven</li>
 	</ul>
 
 _As you can see, the provided `wrap_elem` is totally ignored._
