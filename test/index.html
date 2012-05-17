@@ -1,0 +1,468 @@
+<html>
+	<head>
+		<title>jquery.group.js Unit Testing</title>
+		<link rel="stylesheet" href="qunit/qunit.css">
+	</head>
+	<body>
+		<h1 id="qunit-header">jquery.group.js Unit Testing</h1>
+		<h2 id="qunit-banner"></h2>
+		<div id="qunit-testrunner-toolbar"></div>
+		<h2 id="qunit-userAgent"></h2>
+		<ol id="qunit-tests"></ol>
+		<div id="qunit-fixture">
+			<div id="test-general">
+				<div id="general-first">
+					<p>Paragraph One.</p>
+					<span>Span One.</span>
+					<p>Paragraph Two.</p>
+					<p>Paragraph Three.</p>
+					<p>Paragraph Four.</p>
+					<p>Paragraph Five.</p>
+				</div>
+				<div id="general-second">
+					<p>Paragraph Six.</p>
+					<span>Span Two.</span>
+					<p>Paragraph Seven.</p>
+					<p>Paragraph Eight.</p>
+					<p>Paragraph Nine.</p>
+				</div>
+			</div>
+			
+			<div id="test-ul">
+				<ul>
+					<li>One</li>
+					<li>Two</li>
+					<li>Three</li>
+					<li>Four</li>
+					<li>Five</li>
+					<li>Six</li>
+					<li>Seven</li>
+				</ul>
+			</div>
+			
+			<div id="test-ol">
+				<ol>
+					<li>One</li>
+					<li>Two</li>
+					<li>Three</li>
+					<li>Four</li>
+					<li>Five</li>
+					<li>Six</li>
+					<li>Seven</li>
+				</ol>
+			</div>
+			
+			<div id="test-columns">
+				<div id="columns">
+					<p>Paragraph One.</p>
+					<p>Paragraph Two.</p>
+					<p>Paragraph Three.</p>
+					<p>Paragraph Four.</p>
+					<p>Paragraph Five.</p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" language="javascript" src="qunit/qunit.js"></script>
+		<script type="text/javascript" language="javascript" src="$versions.js"></script>
+		<script type="text/javascript">
+//			$(function () {
+				$versions("1.4.0", "1.4.1", "1.4.2", "1.4.3", "1.4.4", "1.5.0", "1.5.1", "1.5.2", "1.6.0", "1.6.1", "1.6.2", "1.6.3", "1.6.4", "1.7.0", "1.7.1", "1.7.2")
+					.load("../jquery.group.min.js")
+					.execute(function($, jQuery, version) {
+					
+						// HTML Verification
+						module(version + ": Prerequisite");
+						(function () {
+							var i = 0,
+								regps = 9,
+								spans = 2;
+								lis = 7, 
+								colps = 5;
+					
+							test("HTML Structure Properly configured", function () {
+								expect(4);	
+					
+								equal(lis, $('#test-ul ul li').length, "There are " + $('#test-ul ul li').length + " list items in the #test-ul HTML. There should be " + lis + ".");
+								equal(regps, $('#test-general p').length, "There are " + $('#test-general p').length + " paragraphs in the #test-general HTML. There should be " + regps + ".");
+								equal(spans, $('#test-general span').length, "There are " + $('#test-general span').length + " spans in the #test-general HTML. There should be " + spans + ".");
+								equal(colps, $('#test-columns p').length, "There are " + $('#test-columns p').length + " paragraphs in the #test-columns HTML. There should be " + colps + ".");
+							});
+					
+							test("General Paragraphs [class] and [id] are blank", function () {
+								expect(2*regps);
+						
+								for(i = 0; i < regps; i++) {
+									ok(!$('#test-general div p').eq(i).attr('class'), "Item " + i + " lacks [class] to start.");
+									ok(!$('#test-general div p').eq(i).attr('id'), "Item " + i + " lacks [id] to start.");
+								}
+							});
+					
+							test("General Spans [class] and [id] are blank", function () {
+								expect(2*spans);
+						
+								for(i = 0; i < spans; i++) {
+									ok(!$('#test-general div span').eq(i).attr('class'), "Item " + i + " lacks [class] to start.");
+									ok(!$('#test-general div span').eq(i).attr('id'), "Item " + i + " lacks [id] to start.");
+								}
+							});
+					
+							test("List Items [class] and [id] are blank", function () {
+								expect(2*lis);
+						
+								for(i = 0; i < lis; i++) {
+									ok(!$('#test-ul ul li').eq(i).attr('class'), "Item " + i + " lacks [class] to start.");
+									ok(!$('#test-ul ul li').eq(i).attr('id'), "Item " + i + " lacks [id] to start.");
+								}
+							});
+					
+							test("Column paragraphs [class] and [id] are blank", function () {
+								expect(2*colps);
+						
+								for(i = 0; i < colps; i++) {
+									ok(!$('#test-columns div p').eq(i).attr('class'), "Item " + i + " lacks [class] to start.");
+									ok(!$('#test-columns div p').eq(i).attr('id'), "Item " + i + " lacks [id] to start.");
+								}
+							});
+					
+						})();
+				
+						// All-Purpose Testing
+						module(version + ": General");
+						(function () {
+							var settings = {
+								'size': 2,
+								'elem': 'div',
+								'elem_class': 'group',
+								'id_prefix': '',
+								'classing': false
+							},
+								length = expected_children(settings.size),
+								test_settings = {
+								'size': 3,
+								'elem': 'aside',
+								'elem_class': 'set',
+								'id_prefix': 'item_',
+								'classing': true
+							};
+				
+							test("Test for proper defaults", function () {
+								expect(7);
+								$('#general-first p').group();
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child :first-child').attr('id'), "First item lacks [id].");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+					
+							test("Separation of Grouping Test", function () {
+								length = Math.ceil($('#test-general p').length / settings.size) + $('#test-general span').length;
+								var first_ps = $('#general-first p').length,
+									second_ps = $('#general-second p').length;
+						
+								expect(9);
+								$('#test-general p').group();
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child :first-child').attr('id'), "First item lacks [id].");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#test-general > div > *').length, length, "Correct number of children (" + length + ") exist.");
+								equal($('#general-first p').length, first_ps, "No bleed over from second into first.");
+								equal($('#general-second p').length, second_ps, "No bleed over from first into second.")
+							});
+					
+							module(version + ": Settings Tests")
+							test("Test with altered size attribute using quickset method", function () {
+								length = expected_children(test_settings.size);
+						
+								expect(7);
+								$('#general-first p').group(test_settings.size);
+					
+								equal($('#general-first :first-child > *').length, test_settings.size, "Wrapping elements size is correctly " +  test_settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child').attr('id'), "First item lacks [id].");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+					
+							test("Test with altered size attribute using settings object method", function () {
+								// length variable set in the previous test 
+						
+								expect(7);
+								$('#general-first p').group({ 'size': test_settings.size });
+					
+								equal($('#general-first :first-child > *').length, test_settings.size, "Wrapping elements size is correctly " +  test_settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child').attr('id'), "First item lacks [id].");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});	
+					
+							test("Test with altered elem attribute using quickset method", function () {
+								// length variable must be reset due the previous tests 
+								length = expected_children(settings.size);
+						
+								expect(7);
+								$('#general-first p').group(test_settings.elem);
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(test_settings.elem), "Wrapping element is a " + test_settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child').attr('id'), "First item lacks [id].");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+					
+							test("Test with altered elem attribute using settings object method", function () {
+								expect(7);
+								$('#general-first p').group({ 'elem': test_settings.elem });
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(test_settings.elem), "Wrapping element is a " + test_settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child').attr('id'), "First item lacks [id].");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});	
+				
+							test("Test with altered elem_class attribute using quickset method", function () {
+								expect(7);
+						
+								$('#general-first p').group('.' + test_settings.elem_class);
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + test_settings.elem_class), "Wrapping element has ." + test_settings.elem_class + ".");
+								ok(!$('#general-first :first-child :first-child').attr('id'), "First item lacks [id].");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+				
+							test("Test with altered elem_class attribute using settings object method", function () {
+								expect(7);
+						
+								$('#general-first p').group({ 'elem_class': test_settings.elem_class });
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + test_settings.elem_class), "Wrapping element has ." + test_settings.elem_class + ".");
+								ok(!$('#general-first :first-child :first-child').attr('id'), "First item lacks [id].");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+				
+							test("Test with altered id_prefix attribute using quickset method", function () {
+								expect(7);
+								$('#general-first p').group('#' + test_settings.id_prefix);
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok($('#general-first :first-child[id^=' + test_settings.id_prefix + ']'), "First item has correct id.");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+				
+							test("Test with altered id_prefix attribute using settings object method", function () {
+								expect(7);
+								$('#general-first p').group({ 'id_prefix': test_settings.id_prefix });
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok($('#general-first :first-child[id^=' + test_settings.id_prefix + ']'), "First item has correct id.");
+								ok(!$('#general-first :first-child :first-child').attr('class'), "First item lacks [class].");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+				
+							test("Test for first-, last- and only-child classes using quickset method", function () {
+								expect(10);
+								$('#general-first p').group(true);
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child :first-child').attr('id'), "First item lacks [id].");
+								equal($('#general-first :first-child .first-child').length, $('#general-first :first-child :first-child').length, "There are an equal number of grandchild :first-child and .first-child.");
+								equal($('#general-first :first-child .last-child').length, $('#general-first :first-child :last-child').length, "There are an equal number of grandchild :last-child and .last-child.");
+								equal($('#general-first :first-child .only-child').length, $('#general-first :first-child :only-child').length, "There are an equal number of grandchild :only-child and .only-child.");
+								ok($('#general-first > * > .only-child').length <= 1, "There is no more than 1 .only-child.");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+				
+							test("Test for first-, last- and only-child classes using settings object method", function () {
+								expect(10);
+								$('#general-first p').group(true);
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child :first-child').attr('id'), "First item lacks [id].");
+								equal($('#general-first :first-child .first-child').length, $('#general-first :first-child :first-child').length, "There are an equal number of grandchild :first-child and .first-child.");
+								equal($('#general-first :first-child .last-child').length, $('#general-first :first-child :last-child').length, "There are an equal number of grandchild :last-child and .last-child.");
+								equal($('#general-first :first-child .only-child').length, $('#general-first :first-child :only-child').length, "There are an equal number of grandchild :only-child and .only-child.");
+								ok($('#general-first > * > .only-child').length <= 1, "There is no more than 1 .only-child.");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+				
+							test("Test with invalid data", function () {
+								expect(7);
+								$('#general-first p').group({
+									'size': 'eight',
+									'elem': '--92348a',
+									'elem_class': '!!argh',
+									'id_prefix': '#$%^&',
+									'classing': 'apple'
+								});
+					
+								equal($('#general-first :first-child > *').length, settings.size, "Wrapping elements size is correctly " + settings.size);
+								ok($('#general-first :first-child').is(settings.elem), "Wrapping element is a " + settings.elem + ".");
+								ok($('#general-first :first-child').is('.' + settings.elem_class), "Wrapping element has ." + settings.elem_class + ".");
+								ok(!$('#general-first :first-child :first-child').attr('id'), "First item lacks [id].");
+								ok($('#general-first > * > .only-child').length <= 1, "There is no more than 1 .only-child.");
+								equal($('#general-first > span').length, 1, "Span element was correctly left alone.");
+								equal($('#general-first > *').length, length, "Correct number of children (" + length + ") exist.");
+							});
+					
+					
+							function expected_children(size) {
+								return Math.ceil($('#general-first p').length / size) + $('#general-first span').length;
+							}
+						})();
+				
+						// List Testing
+						module(version + ": Unordered Lists");
+						(function () {
+							var settings = {
+								'size': 2,
+								'elem': 'div',
+								'elem_class': 'group',
+								'id_prefix': '',
+								'classing': false
+							},
+								length = Math.ceil($('#test-ul li').length / settings.size),
+								lis = 7,
+								test_settings = {
+									'size': 3,
+									'elem': 'aside',
+									'elem_class': 'set',
+									'id_prefix': 'item_',
+									'classing': true
+								};
+					
+							test("Basic Lists", function () {
+								expect(4);
+								$('#test-ul li').group();
+					
+								equal($('#test-ul > ul').length, length, "There should be " + length + " ul tags and there are actually " + $('#test-ul > ul').length + ".");
+								ok($('#test-ul > ul.' + settings.elem_class).length > 0, "." + settings.elem_class + " was correctly applied to the ul tags, not the li's.");
+								ok(!$('#test-ul > ul').attr('id'), "First item lacks [id].");
+								ok(!$('#test-ul > ul li').attr('class'), "First item lacks [class].");
+							});
+					
+							test("Lists with Full Settings", function () {
+								length = Math.ceil($('#test-ul li').length / test_settings.size);
+								expect(8);
+								$('#test-ul li').group(test_settings);
+					
+								equal($('#test-ul > ul').length, length, "There should be " + length + " ul tags and there are actually " + $('#test-ul > ul').length + ".");
+								ok($('#test-ul > ul.' + test_settings.elem_class).length > 0, "." + test_settings.elem_class + " was correctly applied to the ul tags, not the li's.");
+								equal($('#test-ul > ul[id^=' + test_settings.id_prefix + ']').length, length, "All items matched [id^=" + test_settings.id_prefix + "].");
+								equal($('#test-ul > ul.' + test_settings.elem_class).length, length, "All ul's have ." + test_settings.elem_class + ".");
+								ok(!$('#test-ul').find(test_settings.elem).length, "The plugin correctly ignored the test_stetings.elem value " + test_settings.elem);
+								equal($('#tests-ul .first-child').length, $('#tests-ul :first-child').length, "There are an equal number of :first-child and .first-child.");
+								equal($('#tests-ul .last-child').length, $('#tests-ul :last-child').length, "There are an equal number of :last-child and .last-child.");
+								equal($('#tests-ul .only-child').length, $('#tests-ul :only-child').length, "There are an equal number of :only-child and .only-child.");
+							});
+						})();
+				
+						// List Testing
+						module(version + ": Ordered Lists");
+						(function () {
+							var settings = {
+								'size': 2,
+								'elem': 'div',
+								'elem_class': 'group',
+								'id_prefix': '',
+								'classing': false
+							},
+								length = Math.ceil($('#test-ol li').length / settings.size),
+								lis = 7,
+								test_settings = {
+									'size': 3,
+									'elem': 'aside',
+									'elem_class': 'set',
+									'id_prefix': 'item_',
+									'classing': true
+								};
+					
+							test("Basic Lists", function () {
+								expect(4);
+								$('#test-ol li').group();
+					
+								equal($('#test-ol > ol').length, length, "There should be " + length + " ol tags and there are actually " + $('#test-ol > ol').length + ".");
+								ok($('#test-ol > ol.' + settings.elem_class).length > 0, "." + settings.elem_class + " was correctly applied to the ol tags, not the li's.");
+								ok(!$('#test-ol > ol').attr('id'), "First item lacks [id].");
+								ok(!$('#test-ol > ol li').attr('class'), "First item lacks [class].");
+							});
+					
+							test("Lists with Full Settings", function () {
+								length = Math.ceil($('#test-ol li').length / test_settings.size);
+								expect(8);
+								$('#test-ol li').group(test_settings);
+					
+								equal($('#test-ol > ol').length, length, "There should be " + length + " ul tags and there are actually " + $('#test-ol > ul').length + ".");
+								ok($('#test-ol > ol.' + test_settings.elem_class).length > 0, "." + test_settings.elem_class + " was correctly applied to the ul tags, not the li's.");
+								equal($('#test-ol > ol[id^=' + test_settings.id_prefix + ']').length, length, "All items matched [id^=" + test_settings.id_prefix + "].");
+								equal($('#test-ol > ol.' + test_settings.elem_class).length, length, "All ul's have ." + test_settings.elem_class + ".");
+								ok(!$('#test-ol').find(test_settings.elem).length, "The plugin correctly ignored the test_stetings.elem value " + test_settings.elem);
+								equal($('#tests-ol .first-child').length, $('#tests-ol :first-child').length, "There are an equal number of :first-child and .first-child.");
+								equal($('#tests-ol .last-child').length, $('#tests-ol :last-child').length, "There are an equal number of :last-child and .last-child.");
+								equal($('#tests-ol .only-child').length, $('#tests-ol :only-child').length, "There are an equal number of :only-child and .only-child.");
+							});
+						})();
+				
+						// Columns Test 
+						module(version + ": Columns Unit Tests");
+						test("Rounding for non-integer sizes (Two Columns)", function () {
+							expect(2);
+					
+							var columns = 2;
+					
+							$('#columns p').group({ 'size' : $('#columns p').length / columns});
+							equal($('#columns').children().length, columns, "There are correctly only " + columns + " children of the wrapper.");
+							equal($('#columns').children().first().attr('class'), 'group', "Those children are correctly classed .group.");
+						});
+				
+						test("Rounding for non-integer sizes (Three Columns)", function () {
+						expect(2);
+					
+						var columns = 3;
+					
+						$('#columns p').group({ 'size' : $('#columns p').length / columns});
+						equal($('#columns').children().length, columns, "There are correctly only " + columns + " children of the wrapper.");
+						equal($('#columns').children().first().attr('class'), 'group', "Those children are correctly classed .group.");
+					});
+				});
+//			});
+		</script>
+	</body>
+</html>

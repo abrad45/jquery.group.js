@@ -2,7 +2,7 @@
  * jQuery Group Plugin
  * Examples and Documentation at 
  * https://github.com/abrad45/jquery.group.js
- * Version 1.2 (2 May 2012 16:48 EDT)
+ * Version 1.3 (16 May 2012 21:14 EDT)
  * Copyright (c) 2011-2012 Alexander Bradley
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -13,6 +13,8 @@
  */
 
 (function($){
+	"use strict";
+	
 	$.fn.group = function(args) {
 		//Loop Arguments matching options 
 		var options = {}; 
@@ -41,7 +43,9 @@
 		} 
 		
 		function log() {
-			window.console && console.log && console.log('[group] ' + Array.prototype.join.call(arguments,' '));
+			if(window.console && console.log) {
+				console.log('[group] ' + Array.prototype.join.call(arguments,' '));
+			}
 		}
 		
 		function addClassing($tmp) {
@@ -63,7 +67,8 @@
 		var $ret = $();
 		var is_list = false;
 		var pattern_elem = /^([A-Za-z]+)$/;
-		var pattern_attr = /^[A-Za-z][-A-Za-z0-9_:.]*/;
+		var pattern_attr = /^[A-Za-z][\-A-Za-z0-9_:.]*/;
+		var $tmp = $();
 		
 		var settings = {
 			'size': 2,
@@ -71,7 +76,7 @@
 			'elem_class': 'group',
 			'id_prefix': '',
 			'classing': false
-		}
+		};
 		
 		// Validate options
 		if(options.size && isNaN(options.size)) {
@@ -101,8 +106,13 @@
 		};
 		
 		// we'll treat lists differently to ensure valid html structure
-		if($this.first()[0].nodeName === 'LI') {
+		if($this.first().is('li')) {
 			is_list = true;
+			if($this.first().parent().is('ul')) {
+				s.elem = 'ul';
+			} else if($this.first().parent().is('ol')) {
+				s.elem = 'ol';
+			}
 		}
 		
 		while(count < $this.length) {
@@ -119,18 +129,13 @@
 			}
 			
 			if(s.id_prefix.length) {
-				wrap_attrs = $.extend(wrap_attrs, {id: s.id_prefix + id_suffix++})
+				wrap_attrs = $.extend(wrap_attrs, {id: s.id_prefix + id_suffix++});
 			}
 			
-			if(!is_list) {
-				$tmp = $tmp.wrapAll($('<' + s.elem +  '>', wrap_attrs));
-				if(s.classing) { $tmp = addClassing($tmp); }
-				$tmp = $tmp.parent();
-			} else {
-				$tmp = $tmp.wrapAll('<ul>');
-				if(s.classing) { $tmp = addClassing($tmp); }
-				$tmp = $tmp.parent().parent();
-			}
+			$tmp = $tmp.wrapAll($('<' + s.elem +  '>', wrap_attrs));
+			if(s.classing) { $tmp = addClassing($tmp); }
+			$tmp = $tmp.parent();
+			if(is_list) { $tmp = $tmp.parent(); }
 			
 			$ret = $ret.add($tmp);
 		}
@@ -140,5 +145,5 @@
 		}
 		
 		return $ret;
-	}
+	};
 })(jQuery);
