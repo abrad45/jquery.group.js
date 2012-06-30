@@ -122,7 +122,7 @@ Additionally, to prevent the need to manually declare a `wrap_elem` of `ul` and 
 	
 this jQuery:
 
-```jquery
+```jQuery
 $('li').group(3, 'span');
 ```
 	
@@ -150,47 +150,55 @@ _As you can see, the provided `wrap_elem` is totally ignored._
 
 You can now (as of version 1.0.3 released on 9 March 2012) pass in a size attribute which is not a perfect integer. This is useful when creating columns of items. For instance:
 
-	<div class="columns">
-		<p></p>
-		<p></p>
-		<p></p>
-		<p></p>
-		<p></p>
-	</div>
+```html
+<div class="columns">
+	<p></p>
+	<p></p>
+	<p></p>
+	<p></p>
+	<p></p>
+</div>
+```
 
 we want to make two columns of paragraphs. We can do that with:
 
-	$paras = $('.columns').find('p');
-	$paras.group({
-		'size': $paras.length/2,
-		'elem_class': 'col',
-		'id_prefix': 'col_'
-	});
-	
+```jQuery
+$paras = $('.columns').find('p');
+$paras.group({
+	'size': $paras.length/2,
+	'elem_class': 'col',
+	'id_prefix': 'col_'
+});
+```
+
 which will produce the following:
 
-	<div class="columns">
-		<div class="col" id="col_0">
-			<p></p>
-			<p></p>
-			<p></p>
-		</div>
-		<div class="col" id="col_1">
-			<p></p>
-			<p></p>
-		</div>
+```html
+<div class="columns">
+	<div class="col" id="col_0">
+		<p></p>
+		<p></p>
+		<p></p>
 	</div>
+	<div class="col" id="col_1">
+		<p></p>
+		<p></p>
+	</div>
+</div>
+```
 
 The number length is divided by dictates how many columns you're attempting to achieve, but in some cases, this may not be possible. The plugin parses the value passed in as `size` to `parseInt(Math.ceil(size))`. For instance, if `$('.foo').length //=> 9` and you want to make four columns of `.foo`'s, 9/4 = 2.25; `parseInt(Math.ceil(2.25)) //=> 3` so three columns will be created, not four. To circumvent this, you could pass the plugin `'size' : Math.floor($('.foo').length/4)` to ensure `size` was set to two. This rounding behavior was chosen to keep from requiring the user to round themselves, but still allows the flexibility to round manually.
 
 ## All Settings ##
 
-	var settings = {
-		'size': 2,
-		'elem': 'div',
-		'elem_class': 'group',
-		'id_prefix': '',
-		'classing': false
-	}
-	
+```js
+var settings = {
+	'size': 2,
+	'elem': 'div',
+	'elem_class': 'group',
+	'id_prefix': '',
+	'classing': false
+}
+```
+
 The plugin tries to be intelligent about how you pass it data. For instance, if you set `settings.size = 'your mother';` that will be converted to the default, and floating point numbers will be rounded up to the nearest integer (see above). Also, if the element, class or ID you pass in is not valid according to the HTML spec, we'll use the defaults displayed directly above. Always try to pass in clean settings, but we'll try to help keep your code clean for you.
