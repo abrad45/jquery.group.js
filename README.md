@@ -108,35 +108,41 @@ the result will be:
 
 Additionally, to prevent the need to manually declare a `wrap_elem` of `ul` and go through a bunch of work to wrap those in LI's (since `ul > ul > li` is [not syntactically correct](http://www.w3.org/TR/html401/struct/lists.html)) `wrap_elem` is ignored if the first item provided is an `li`. Given the following HTML:
 
-	<ul>
-		<li>One</li>
-		<li>Two</li>
-		<li>Three</li>
-		<li>Four</li>
-		<li>Five</li>
-		<li>Six</li>
-		<li>Seven</li>
-	</ul>
+```html
+<ul>
+	<li>One</li>
+	<li>Two</li>
+	<li>Three</li>
+	<li>Four</li>
+	<li>Five</li>
+	<li>Six</li>
+	<li>Seven</li>
+</ul>
+```
 	
 this jQuery:
 
-	$('li').group(3, 'span');
+```jquery
+$('li').group(3, 'span');
+```
 	
 will produce this output:
 
-	<ul class="group">
-		<li>One</li>
-		<li>Two</li>
-		<li>Three</li>
-	</ul>
-	<ul class="group">
-		<li>Four</li>
-		<li>Five</li>
-		<li>Six</li>
-	</ul>
-	<ul class="group">
-		<li>Seven</li>
-	</ul>
+```html
+<ul class="group">
+	<li>One</li>
+	<li>Two</li>
+	<li>Three</li>
+</ul>
+<ul class="group">
+	<li>Four</li>
+	<li>Five</li>
+	<li>Six</li>
+</ul>
+<ul class="group">
+	<li>Seven</li>
+</ul>
+```
 
 _As you can see, the provided `wrap_elem` is totally ignored._
 
