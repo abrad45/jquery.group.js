@@ -6,33 +6,39 @@ This jQuery plugin allows you to group items that match a selector into groups: 
 
 For instance, given this HTML structure:
 
-	<div id="primary-content">
-		<p></p>
-		<p></p>
-		<p></p>
-		<p></p>
-		<p></p>
-	</div>
+```html
+<div id="primary-content">
+	<p></p>
+	<p></p>
+	<p></p>
+	<p></p>
+	<p></p>
+</div>
+```
 
 if you type:
 
-    $('#primary-content').find('p').group();
+```js
+$('#primary-content').find('p').group();
+```
 
 the result will be: 
 
-	<div id="primary-content">
-		<div class="group">
-			<p></p>
-			<p></p>
-		</div>
-		<div class="group">
-			<p></p>
-			<p></p>
-		</div>
-		<div class="group">
-			<p></p>
-		</div>
+```html
+<div id="primary-content">
+	<div class="group">
+		<p></p>
+		<p></p>
 	</div>
+	<div class="group">
+		<p></p>
+		<p></p>
+	</div>
+	<div class="group">
+		<p></p>
+	</div>
+</div>
+```
 
 All children of 'p' tags will remain unaffected, and all siblings of the items being grouped which appear between the first and last items being grouped will appear "around" the div.group items. This behavior is demonstrated below.
 
@@ -40,69 +46,79 @@ All children of 'p' tags will remain unaffected, and all siblings of the items b
 
 Though `div` and `group` are the plugin's default wrapping item and class, respectively, both can be customized:
 
-	$('#primary-content').find('p').group('span', '.set', '#item_', 3);
+```js
+$('#primary-content').find('p').group('span', '.set', '#item_', 3);
+```
 
 You can pass parameters to jquery.group.js in any order: since each string has a different prefix, the plugin can parse them appropriately (thanks to [Sean Catchpole's idTabs](http://www.sunsean.com/idTabs/) for inspiration, here). The above, if run on our `#primary-content` from above, will result in the following:
 
-	<div id="primary-content">
-		<span class="set" id="item_1">
-			<p></p>
-			<p></p>
-			<p></p>
-		</span>
-		<span class="set" id="item_2">
-			<p></p>
-			<p></p>
-		</span>
-	</div>
+```html
+<div id="primary-content">
+	<span class="set" id="item_1">
+		<p></p>
+		<p></p>
+		<p></p>
+	</span>
+	<span class="set" id="item_2">
+		<p></p>
+		<p></p>
+	</span>
+</div>
+```
 
 ## Treatment of Intermingled, Nonselected Elements ##
 
 If you run the plugin on items which are not sequential or don't share a parent, the plugin will not group them out of their original containers. Any siblings of selected items (like the `span` below are ignored). For instance. if you've got this HTML structure:
 
-	<div id="primary-content">
-		<p></p>
-		<p></p>
-		<span></span>
-		<p></p>
-		<p></p>
-		<p></p>
-	</div>
-	<div id="secondary-content">
-		<p></p>
-		<p></p>
-		<p></p>
-	</div>
+```html
+<div id="primary-content">
+	<p></p>
+	<p></p>
+	<span></span>
+	<p></p>
+	<p></p>
+	<p></p>
+</div>
+<div id="secondary-content">
+	<p></p>
+	<p></p>
+	<p></p>
+</div>
+```
 
 and run this jQuery:
 
-	$('#primary-content, #secondary-content').find('p').group();
+```js
+$('#primary-content, #secondary-content').find('p').group();
+```
 	
 the result will be:
 
-	<div id="primary-content">
-		<div class="group">
-			<p></p>
-			<p></p>
-		</div>
-		<span></span>
-		<div class="group">
-			<p></p>
-			<p></p>
-		</div>
-		<div class="group">
-			<p></p>
-		</div>
+```html
+<div id="primary-content">
+	<div class="group">
+		<p></p>
+		<p></p>
 	</div>
-	<div id="secondary-content">
-		<div class="group">
-			<p></p>
-			<p></p>
-		</div>
-		<div class="group">
-			<p></p>
-		</div>
+	<span></span>
+	<div class="group">
+		<p></p>
+		<p></p>
 	</div>
+	<div class="group">
+		<p></p>
+	</div>
+</div>
+<div id="secondary-content">
+	<div class="group">
+		<p></p>
+		<p></p>
+	</div>
+	<div class="group">
+		<p></p>
+	</div>
+</div>
+```
 
 ## Keeping Lists W3C Compliant ##
 
@@ -122,7 +138,7 @@ Additionally, to prevent the need to manually declare a `wrap_elem` of `ul` and 
 	
 this jQuery:
 
-```jQuery
+```js
 $('li').group(3, 'span');
 ```
 	
@@ -162,7 +178,7 @@ You can now (as of version 1.0.3 released on 9 March 2012) pass in a size attrib
 
 we want to make two columns of paragraphs. We can do that with:
 
-```jQuery
+```js
 $paras = $('.columns').find('p');
 $paras.group({
 	'size': $paras.length/2,
