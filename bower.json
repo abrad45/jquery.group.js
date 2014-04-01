@@ -1,0 +1,15 @@
+{
+  "name": "jquery.group.js",
+  "description" : "A jQuery extension for wrapping sets of elements at one time",
+  "version": "1.3",
+  "main": ["jquery.group.min.js"],
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "ignore": [
+    "**/.*",
+    "test",
+    "README.md",
+    "jquery.group.js"
+  ]
+}
