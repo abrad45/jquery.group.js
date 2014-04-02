@@ -9,6 +9,7 @@
   "ignore": [
     "**/.*",
     "test",
-    "jquery.group.js"
+    "jquery.group.js",
+    "bower.json"
   ]
 }
