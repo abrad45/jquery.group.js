@@ -29,7 +29,7 @@
 			</div>
 			
 			<div id="test-ul">
-				<ul>
+				<ul class="jaykillah">
 					<li>One</li>
 					<li>Two</li>
 					<li>Three</li>
@@ -41,7 +41,7 @@
 			</div>
 			
 			<div id="test-ol">
-				<ol>
+				<ol class="jaykillah">
 					<li>One</li>
 					<li>Two</li>
 					<li>Three</li>
@@ -67,6 +67,7 @@
 		<script type="text/javascript">
 //			$(function () {
 				$versions("2.1.0", "2.0.3", "2.0.2", "2.0.1", "2.0.0", "1.11.0", "1.10.2", "1.10.1", "1.10.0", "1.9.1", "1.9.0", "1.8.3", "1.8.2", "1.8.1", "1.8.0", "1.7.2", "1.7.1", "1.7.0", "1.6.4", "1.6.3", "1.6.2", "1.6.1", "1.6.0", "1.5.2", "1.5.1", "1.5.0", "1.4.4", "1.4.3", "1.4.2", "1.4.1", "1.4.0")
+				// $versions("2.1.0") // when adding new tests, it's nice to not get alerted that they fail tons of times ;)
 					.load("../jquery.group.min.js")
 					.execute(function($, jQuery, version) {
 					
@@ -359,6 +360,7 @@
 								'classing': false
 							},
 								length = Math.ceil($('#test-ul li').length / settings.size),
+								starting_class = $('#test-ul > ul').attr('class'),
 								lis = 7,
 								test_settings = {
 									'size': 3,
@@ -367,27 +369,30 @@
 									'id_prefix': 'item_',
 									'classing': true
 								};
-					
+								
 							test("Basic Lists", function () {
-								expect(4);
+								expect(5);
 								$('#test-ul li').group();
+								console.log($('#test-ul > ul'), $('#test-ul > ul').hasClass(starting_class));
 					
 								equal($('#test-ul > ul').length, length, "There should be " + length + " ul tags and there are actually " + $('#test-ul > ul').length + ".");
-								ok($('#test-ul > ul.' + settings.elem_class).length > 0, "." + settings.elem_class + " was correctly applied to the ul tags, not the li's.");
+								ok(!$('#test-ul > ul').hasClass(settings.elem_class), "." + settings.elem_class + " was correctly not applied to the ul tag so as not to clobber what's there.");
+								ok($('#test-ul > ul').hasClass(starting_class), "." + starting_class + " is still on the ul tag.");
 								ok(!$('#test-ul > ul').attr('id'), "First item lacks [id].");
 								ok(!$('#test-ul > ul li').attr('class'), "First item lacks [class].");
 							});
 					
 							test("Lists with Full Settings", function () {
 								length = Math.ceil($('#test-ul li').length / test_settings.size);
-								expect(8);
+								expect(9);
 								$('#test-ul li').group(test_settings);
 					
 								equal($('#test-ul > ul').length, length, "There should be " + length + " ul tags and there are actually " + $('#test-ul > ul').length + ".");
 								ok($('#test-ul > ul.' + test_settings.elem_class).length > 0, "." + test_settings.elem_class + " was correctly applied to the ul tags, not the li's.");
 								equal($('#test-ul > ul[id^=' + test_settings.id_prefix + ']').length, length, "All items matched [id^=" + test_settings.id_prefix + "].");
 								equal($('#test-ul > ul.' + test_settings.elem_class).length, length, "All ul's have ." + test_settings.elem_class + ".");
-								ok(!$('#test-ul').find(test_settings.elem).length, "The plugin correctly ignored the test_stetings.elem value " + test_settings.elem);
+								equal($('#test-ul > ul.' + starting_class).length, length, "All ul's also have ." + starting_class + ".");
+								ok(!$('#test-ul').find(test_settings.elem).length, "The plugin correctly ignored the test_settings.elem value (" + test_settings.elem + ')');
 								equal($('#tests-ul .first-child').length, $('#tests-ul :first-child').length, "There are an equal number of :first-child and .first-child.");
 								equal($('#tests-ul .last-child').length, $('#tests-ul :last-child').length, "There are an equal number of :last-child and .last-child.");
 								equal($('#tests-ul .only-child').length, $('#tests-ul :only-child').length, "There are an equal number of :only-child and .only-child.");
@@ -405,6 +410,7 @@
 								'classing': false
 							},
 								length = Math.ceil($('#test-ol li').length / settings.size),
+								starting_class = $('#test-ol > ol').attr('class'),
 								lis = 7,
 								test_settings = {
 									'size': 3,
@@ -415,25 +421,27 @@
 								};
 					
 							test("Basic Lists", function () {
-								expect(4);
+								expect(5);
 								$('#test-ol li').group();
 					
 								equal($('#test-ol > ol').length, length, "There should be " + length + " ol tags and there are actually " + $('#test-ol > ol').length + ".");
-								ok($('#test-ol > ol.' + settings.elem_class).length > 0, "." + settings.elem_class + " was correctly applied to the ol tags, not the li's.");
+								ok(!$('#test-ol > ol').hasClass(settings.elem_class), "." + settings.elem_class + " was correctly not applied to the ol tag so as not to clobber what's there.");
+								ok($('#test-ol > ol').hasClass(starting_class), "." + starting_class + " is still on the ol tag.");
 								ok(!$('#test-ol > ol').attr('id'), "First item lacks [id].");
 								ok(!$('#test-ol > ol li').attr('class'), "First item lacks [class].");
 							});
 					
 							test("Lists with Full Settings", function () {
 								length = Math.ceil($('#test-ol li').length / test_settings.size);
-								expect(8);
+								expect(9);
 								$('#test-ol li').group(test_settings);
 					
-								equal($('#test-ol > ol').length, length, "There should be " + length + " ul tags and there are actually " + $('#test-ol > ul').length + ".");
-								ok($('#test-ol > ol.' + test_settings.elem_class).length > 0, "." + test_settings.elem_class + " was correctly applied to the ul tags, not the li's.");
+								equal($('#test-ol > ol').length, length, "There should be " + length + " ol tags and there are actually " + $('#test-ol > ul').length + ".");
+								ok($('#test-ol > ol.' + test_settings.elem_class).length > 0, "." + test_settings.elem_class + " was correctly applied to the ol tags, not the li's.");
 								equal($('#test-ol > ol[id^=' + test_settings.id_prefix + ']').length, length, "All items matched [id^=" + test_settings.id_prefix + "].");
-								equal($('#test-ol > ol.' + test_settings.elem_class).length, length, "All ul's have ." + test_settings.elem_class + ".");
-								ok(!$('#test-ol').find(test_settings.elem).length, "The plugin correctly ignored the test_stetings.elem value " + test_settings.elem);
+								equal($('#test-ol > ol.' + test_settings.elem_class).length, length, "All ol's have ." + test_settings.elem_class + ".");
+								equal($('#test-ol > ol.' + starting_class).length, length, "All ol's also have ." + starting_class + ".");
+								ok(!$('#test-ol').find(test_settings.elem).length, "The plugin correctly ignored the test_settings.elem value " + test_settings.elem);
 								equal($('#tests-ol .first-child').length, $('#tests-ol :first-child').length, "There are an equal number of :first-child and .first-child.");
 								equal($('#tests-ol .last-child').length, $('#tests-ol :last-child').length, "There are an equal number of :last-child and .last-child.");
 								equal($('#tests-ol .only-child').length, $('#tests-ol :only-child').length, "There are an equal number of :only-child and .only-child.");

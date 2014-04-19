@@ -2,8 +2,8 @@
  * jQuery Group Plugin
  * Examples and Documentation at 
  * https://github.com/abrad45/jquery.group.js
- * Version 1.3 (16 May 2012 21:14 EDT)
- * Copyright (c) 2011-2012 Alexander Bradley
+ * Version 1.4 (19 April 2014 00:03 EDT)
+ * Copyright (c) 2011-2014 Alexander Bradley
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -113,6 +113,14 @@
 			} else if($this.first().parent().is('ol')) {
 				s.elem = 'ol';
 			}
+			
+			// preserve class on wrapping list
+			if($(this).parent('ul, ol').attr('class')) {
+				// options.elem_class specifies the user input, but if there's no input
+				// there, s.elem_class will be set to the default value. this check
+				// ensures that if there's no value entered, the default doesn't get added.
+				wrap_attrs.class = options.elem_class ? options.elem_class + ' ' + $(this).parent().attr('class') : $(this).parent().attr('class');
+			}
 		}
 		
 		while(count < $this.length) {
@@ -132,18 +140,19 @@
 				wrap_attrs = $.extend(wrap_attrs, {id: s.id_prefix + id_suffix++});
 			}
 			
-			$tmp = $tmp.wrapAll($('<' + s.elem +  '>', wrap_attrs));
-			if(s.classing) { $tmp = addClassing($tmp); }
+			$tmp = $tmp.wrapAll($('<' + s.elem +  '/>', wrap_attrs));
+			if(s.classing) { 
+				$tmp = addClassing($tmp);
+			}
+			
 			$tmp = $tmp.parent();
-			if(is_list) { $tmp = $tmp.parent(); }
+			if(is_list) {
+				$tmp = $tmp.parent();
+			}
 			
 			$ret = $ret.add($tmp);
 		}
 		
-		if(is_list) {
-			$ret.children(':first-child').unwrap();
-		}
-		
-		return $ret;
+		return is_list ? $ret.children(':first-child').unwrap() : $ret;
 	};
 })(jQuery);

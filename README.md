@@ -125,7 +125,7 @@ the result will be:
 Additionally, to prevent the need to manually declare a `wrap_elem` of `ul` and go through a bunch of work to wrap those in LI's (since `ul > ul > li` is [not syntactically correct](http://www.w3.org/TR/html401/struct/lists.html)) `wrap_elem` is ignored if the first item provided is an `li`. Given the following HTML:
 
 ```html
-<ul>
+<ul class="ul_class">
 	<li>One</li>
 	<li>Two</li>
 	<li>Three</li>
@@ -145,22 +145,26 @@ $('li').group(3, 'span');
 will produce this output:
 
 ```html
-<ul class="group">
+<ul class="ul_class">
 	<li>One</li>
 	<li>Two</li>
 	<li>Three</li>
 </ul>
-<ul class="group">
+<ul class="ul_class">
 	<li>Four</li>
 	<li>Five</li>
 	<li>Six</li>
 </ul>
-<ul class="group">
+<ul class="ul_class">
 	<li>Seven</li>
 </ul>
 ```
 
-_As you can see, the provided `wrap_elem` is totally ignored._
+_As you can see, the provided `wrap_elem` is totally ignored._ You may also notice that `settings.elem_class` is totally ignored, since a class was already there.
+
+* If no class attribute is on the `ul`, `settings.elem_class` will be used as the class value.
+* If a class attribute is on the `ul`, `settings.elem_class` will be **ignored** and the class value will _only_ be the original class attribute on the ul.
+* If a class attribute is on the `ul` and the default value of `settings.elem_class` is overridden by a value passed to the plugin, both values will be used as classes.
 
 ## Using `.length` to create columns ##
 
