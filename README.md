@@ -2,6 +2,8 @@
 
 This jQuery plugin allows you to group items that match a selector into groups: essentially this is like jQuery's .wrapAll() function, but with determined sizes. It can be used to [cycle](http://jquery.malsup.com/cycle/ "jQuery Cycle Plugin") through groups of items, or to create columns out of a set of elements.
 
+**I am leaving it here, but about to archive this repo.** I was a different developer (and the landscape was very different) back then: my goals were to learn how to make a jQuery plugin and solve a problem my colleagues and I had at work. Nowadays, you should probably something else to accomplish this task :)
+
 ## Basic Usage ##
 
 For instance, given this HTML structure:
